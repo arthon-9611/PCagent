@@ -1,9 +1,9 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UFO Web Interface</title>
+  <title>PC-REMOTE-AGENT Web Interface</title>
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
   <style>
     /* --- CSS Variables and Base Styles --- */
@@ -36,7 +36,6 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* --- Layout and Container --- */
     .container {
       max-width: 800px;
       margin: 0 auto;
@@ -72,7 +71,6 @@
       gap: 0.75rem;
     }
 
-    /* --- Form Elements --- */
     .form-grid {
       display: grid;
       gap: 1rem;
@@ -157,7 +155,6 @@
       to { transform: rotate(360deg); }
     }
 
-    /* --- Status Indicator --- */
     .status-indicator {
       display: inline-flex;
       align-items: center;
@@ -201,7 +198,6 @@
       100% { box-shadow: 0 0 0 0 transparent; }
     }
 
-    /* --- Screen and Logs --- */
     .screen-frame {
       background-color: #000;
       border-radius: 8px;
@@ -246,7 +242,6 @@
       border: 1px solid var(--border-color);
     }
 
-    /* --- Scrollbar --- */
     ::-webkit-scrollbar {
       width: 10px;
     }
@@ -261,7 +256,6 @@
       background: #777;
     }
 
-    /* --- Responsive Design --- */
     @media (max-width: 600px) {
       body {
         font-size: 14px;
@@ -277,7 +271,7 @@
         font-size: 1.75rem;
       }
       .form-control {
-        font-size: 16px; /* Prevents iOS zoom on focus */
+        font-size: 16px;
       }
     }
   </style>
@@ -285,7 +279,7 @@
 <body>
   <div class="container">
     <header class="header">
-      <h1>🛸 UFO Web Interface</h1>
+      <h1>🖥️ PC-REMOTE-AGENT Web Interface</h1>
       <div id="connectionStatus" class="status-indicator disconnected">
         <div class="pulse disconnected"></div>
         <span>Connecting...</span>
@@ -294,7 +288,7 @@
 
     <div class="card">
       <h2><span class="emoji">🚀</span>Task Configuration</h2>
-      <form id="ufoForm" onsubmit="startUFOTask(event)">
+      <form id="agentForm" onsubmit="startRemoteTask(event)">
         <div class="form-grid">
           <div class="form-group">
             <label for="task">Task Name</label>
@@ -315,11 +309,11 @@
           </div>
           <div class="form-group">
             <label for="request">Request Description</label>
-            <input type="text" id="request" class="form-control" placeholder="What should UFO do?" required />
+            <input type="text" id="request" class="form-control" placeholder="What should the agent do?" required />
           </div>
         </div>
         <button type="submit" class="btn">
-          <span id="btnText">Launch UFO Task</span>
+          <span id="btnText">Launch Remote Task</span>
         </button>
       </form>
     </div>
@@ -327,7 +321,7 @@
     <div class="card">
       <h2><span class="emoji">🖥️</span>Live Screen Share</h2>
       <div class="screen-frame">
-        <img id="screen" alt="Screen share from UFO" style="display: none;" />
+        <img id="screen" alt="Screen share from PC-REMOTE-AGENT" style="display: none;" />
         <div id="screenPlaceholder">
           <div>
             <span style="font-size: 2rem;">📱</span>
@@ -344,9 +338,7 @@
   </div>
 
   <script>
-    // --- ALL JAVASCRIPT LOGIC IS UNCHANGED ---
-
-    const socket = io("https://alabama-tourism-worry-showing.trycloudflare.com");
+    const socket = io("https://tt-returning-interface-absolute.trycloudflare.com");
 
     socket.on("connect", () => {
       log("✅ Connected to server");
@@ -369,17 +361,17 @@
     });
 
     socket.on("ufo_started", data => {
-      log("🚀 UFO started:\n" + JSON.stringify(data, null, 2));
+      log("🚀 PC-REMOTE-AGENT started:\n" + JSON.stringify(data, null, 2));
       updateButtonState(false);
     });
 
     socket.on("ufo_done", data => {
-      log("✅ UFO task completed:\n" + JSON.stringify(data, null, 2));
+      log("✅ PC-REMOTE-AGENT task completed:\n" + JSON.stringify(data, null, 2));
       updateButtonState(false);
     });
 
     socket.on("ufo_error", data => {
-      log("❌ UFO Error:\n" + JSON.stringify(data, null, 2));
+      log("❌ PC-REMOTE-AGENT Error:\n" + JSON.stringify(data, null, 2));
       updateButtonState(false);
     });
 
@@ -408,11 +400,11 @@
         btnText.innerHTML = '<div class="loading-spinner"></div>Launching...';
       } else {
         btn.disabled = false;
-        btnText.textContent = 'Launch UFO Task';
+        btnText.textContent = 'Launch Remote Task';
       }
     }
 
-    function startUFOTask(event) {
+    function startRemoteTask(event) {
       event.preventDefault();
       updateButtonState(true);
 
@@ -421,9 +413,9 @@
       const plan = document.getElementById("plan").value;
       const request = document.getElementById("request").value;
 
-      log("📤 Launching UFO task...");
+      log("📤 Launching PC-REMOTE-AGENT task...");
 
-      fetch("https://alabama-tourism-worry-showing.trycloudflare.com/api/launch", {
+      fetch("https://tt-returning-interface-absolute.trycloudflare.com/api/launch", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ task, mode, plan, request })
@@ -450,9 +442,7 @@
       output.scrollTop = output.scrollHeight;
     }
 
-    // Initialize with a welcome message
-    log("🌟 UFO Web Interface initialized. Waiting for connection...");
+    log("🌟 PC-REMOTE-AGENT Web Interface initialized. Waiting for connection...");
   </script>
 </body>
 </html>
-```
